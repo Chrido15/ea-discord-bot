@@ -1,4 +1,7 @@
 /**
+ * Developed By: Bryce Christian
+ * Developed On: 11/26/2025
+ * 
  * Golden Noodles Discord Bot
  * A recognition system where users can send Golden Noodles to appreciate others
  */
@@ -75,7 +78,7 @@ async function handleGoldenNoodle(interaction) {
 
     const sender = interaction.user;
     const recipient = interaction.options.getUser('recipient');
-    const message = interaction.options.getString('message');
+    const message = interaction.options.getString('message') || '';
 
     // Validate: Can't send to yourself
     if (sender.id === recipient.id) {
@@ -126,11 +129,13 @@ async function handleGoldenNoodle(interaction) {
             .setColor(0xFFD700) // Gold color
             .setTitle(`${NOODLE_EMOJI} Golden Noodle Received!`)
             .setDescription(`**${sender.displayName || sender.username}** sent a Golden Noodle to **${recipient.displayName || recipient.username}**!`)
-            .addFields(
-                { name: 'Recognition Message', value: message }
-            )
             .setFooter({ text: `${remainingNoodles - 1} noodles remaining for ${sender.username} this month` })
             .setTimestamp();
+        
+        // Only add message field if a message was provided
+        if (message) {
+            embed.addFields({ name: 'Recognition Message', value: message });
+        }
 
         // Reply in channel
         await interaction.editReply({ embeds: [embed] });
@@ -141,10 +146,12 @@ async function handleGoldenNoodle(interaction) {
                 .setColor(0xFFD700)
                 .setTitle(`${NOODLE_EMOJI} You received a Golden Noodle!`)
                 .setDescription(`**${sender.displayName || sender.username}** recognized your hard work in **${interaction.guild.name}**!`)
-                .addFields(
-                    { name: 'Their Message', value: message }
-                )
                 .setTimestamp();
+            
+            // Only add message field if a message was provided
+            if (message) {
+                dmEmbed.addFields({ name: 'Their Message', value: message });
+            }
 
             await recipient.send({ embeds: [dmEmbed] });
         } catch (dmError) {
@@ -233,7 +240,7 @@ async function handleNoodlesReceived(interaction) {
  * Handle the /noodle-leaderboard command
  */
 async function handleLeaderboard(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     try {
         const leaderboard = await salesforce.getLeaderboard(interaction.guildId);
@@ -277,10 +284,6 @@ client.once('ready', async () => {
 // Event: Handle interactions
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
-
-    console.log(
-        `Interaction received: ${interaction.commandName} in guild ${interaction.guildId} from ${interaction.user?.username}`
-    );
 
     switch (interaction.commandName) {
         case 'goldennoodle':
