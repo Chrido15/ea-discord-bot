@@ -75,7 +75,7 @@ async function handleGoldenNoodle(interaction) {
 
     const sender = interaction.user;
     const recipient = interaction.options.getUser('recipient');
-    const message = interaction.options.getString('message') || 'For being awesome!';
+    const message = interaction.options.getString('message');
 
     // Validate: Can't send to yourself
     if (sender.id === recipient.id) {
