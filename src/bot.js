@@ -278,6 +278,10 @@ client.once('ready', async () => {
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
 
+    console.log(
+        `Interaction received: ${interaction.commandName} in guild ${interaction.guildId} from ${interaction.user?.username}`
+    );
+
     switch (interaction.commandName) {
         case 'goldennoodle':
             await handleGoldenNoodle(interaction);
