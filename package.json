@@ -1,0 +1,28 @@
+{
+  "name": "golden-noodles-bot",
+  "version": "1.0.0",
+  "description": "Discord bot for Golden Noodles recognition system with Salesforce integration",
+  "main": "src/bot.js",
+  "scripts": {
+    "start": "node src/bot.js",
+    "dev": "nodemon src/bot.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "jsforce": "^1.11.1",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "salesforce",
+    "recognition"
+  ],
+  "license": "MIT"
+}
