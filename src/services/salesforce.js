@@ -1,4 +1,7 @@
 /**
+ * Developed By: Bryce Christian
+ * Developed On: 11/26/2025
+ * 
  * Salesforce Service
  * Handles all interactions with Salesforce for Golden Noodles transactions
  */
